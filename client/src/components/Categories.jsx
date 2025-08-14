@@ -1,4 +1,4 @@
-import { assets, categories } from "../assets/assets";
+import { categories } from "../assets/assets";
 import { useAppContext } from "../context/AppContext";
 
 function Categories() {
