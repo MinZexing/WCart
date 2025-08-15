@@ -4,8 +4,8 @@ import { useAppContext } from "../../context/AppContext";
 function SellerLogin() {
   const { isSeller, setIsSeller, navigate } = useAppContext();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("test@test.com");
+  const [password, setPassword] = useState("123123");
 
   const onSubmitHandler = async (event) => {
     event.preventDefault();
