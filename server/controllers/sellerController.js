@@ -22,9 +22,9 @@ export const sellerLogin = async (req, res) => {
         maxAge: 7 * 24 * 60 * 60 * 1000,
       });
 
-      return res.json({ success: true, message: "Logged In" });
+      return res.json({ success: true, message: "Seller logged in" });
     } else {
-      return res.json({ success: false, message: "Invalid Credentials" });
+      return res.json({ success: false, message: "Invalid credentials" });
     }
   } catch (error) {
     console.log(error.message);
@@ -35,7 +35,10 @@ export const sellerLogin = async (req, res) => {
 // Seller isAuth: /api/seller/is-auth
 export const sellerIsAuth = async (req, res) => {
   try {
-    return res.json({ success: true });
+    return res.json({
+      success: true,
+      message: "Seller is currently logged in",
+    });
   } catch (error) {
     console.log(error.message);
     res.json({ success: false, message: error.message });
@@ -50,7 +53,7 @@ export const sellerLogout = async (req, res) => {
       secure: process.env.NODE_ENV === "production",
       sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
     });
-    return res.json({ success: true, message: "Seller Logged out" });
+    return res.json({ success: true, message: "Seller logged out" });
   } catch (error) {
     console.log(error.message);
     res.json({ success: false, message: error.message });
