@@ -1,15 +1,30 @@
 import { useEffect, useState } from "react";
 import { useAppContext } from "../../context/AppContext";
+import toast from "react-hot-toast";
+import axios from "axios";
 
 function SellerLogin() {
   const { isSeller, setIsSeller, navigate } = useAppContext();
 
-  const [email, setEmail] = useState("test@test.com");
-  const [password, setPassword] = useState("123123");
+  const [email, setEmail] = useState("admin@example.com");
+  const [password, setPassword] = useState("123456789");
 
   const onSubmitHandler = async (event) => {
-    event.preventDefault();
-    setIsSeller(true);
+    try {
+      event.preventDefault();
+      const { data } = await axios.post("/api/seller/login", {
+        email,
+        password,
+      });
+      if (data.success === true) {
+        setIsSeller(true);
+        navigate("/seller");
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error("Failed to fetch backend: " + error.message);
+    }
   };
 
   useEffect(() => {
