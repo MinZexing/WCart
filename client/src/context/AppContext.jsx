@@ -36,7 +36,16 @@ export const AppContextProvider = ({ children }) => {
 
   //fetch all products
   const fetchProducts = async () => {
-    setProducts(dummyProducts);
+    try {
+      const { data } = await axios.get("/api/product/list");
+      if (data.success) {
+        setProducts(data.products);
+      } else {
+        toast.error("Can't fetch backend: " + data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   //Add product to cart
@@ -121,6 +130,7 @@ export const AppContextProvider = ({ children }) => {
     getCartAmount,
     getCartCount,
     axios,
+    fetchProducts,
   };
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };
