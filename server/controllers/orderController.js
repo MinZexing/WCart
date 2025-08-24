@@ -5,8 +5,9 @@ import Product from "../models/Product.js";
 
 export const placeOrderCOD = async (req, res) => {
   try {
-    const { userId, items, address } = req.body;
-    if (!address || items.length() === 0) {
+    const { userId } = req.auth;
+    const { items, address } = req.body;
+    if (!address || items.length === 0) {
       return res.json({ success: false, message: "Invalid data" });
     }
 
@@ -22,6 +23,7 @@ export const placeOrderCOD = async (req, res) => {
     await Order.create({
       userId,
       items,
+      amount,
       address,
       paymentType: "COD",
     });
