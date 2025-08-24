@@ -38,7 +38,7 @@ export const placeOrderCOD = async (req, res) => {
 // Get orders by User id: /api/order/user
 export const getUserOrders = async (req, res) => {
   try {
-    const { userId } = req.body;
+    const { userId } = req.auth;
     const orders = await Order.find({
       userId,
       $or: [{ paymentType: "COD" }, { isPaid: true }],
