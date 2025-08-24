@@ -12,7 +12,7 @@ export const AppContext = createContext();
 export const AppContextProvider = ({ children }) => {
   const currency = import.meta.env.VITE_CURRENCY;
   const navigate = useNavigate();
-  const [user, setUser] = useState(true);
+  const [user, setUser] = useState(null);
   const [isSeller, setIsSeller] = useState(false);
   const [showUserLogin, setShowUserLogin] = useState(false);
   const [products, setProducts] = useState([]);
@@ -31,6 +31,21 @@ export const AppContextProvider = ({ children }) => {
       }
     } catch (error) {
       setIsSeller(false);
+    }
+  };
+
+  //fetch user auth status
+  const fetchUser = async () => {
+    try {
+      const { data } = await axios.get("api/user/is-auth");
+      if (data.success && data.user.cartItems) {
+        setUser(data.user);
+        setCartItems(data.user.cartItems);
+      } else if (data.success) {
+        setUser(data.user);
+      }
+    } catch (error) {
+      setUser(null);
     }
   };
 
@@ -107,6 +122,7 @@ export const AppContextProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    fetchUser();
     fetchSeller();
     fetchProducts();
   }, []);
